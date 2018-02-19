@@ -1,0 +1,66 @@
+<div class="col-lg-5">
+    <h1 class="h1-strong">{{title}}</h1>
+    <div class="alert alert-success" *ngIf="status == 'success'">
+        Registro Completado Correctamente,
+        <a [routerLink]="['/login']">Identicate aqui</a>
+    </div>
+    <div class="alert alert-danger" *ngIf="status == 'error'">
+        <!--[routerLink]="['/login']"   hace un enlace dentro de la pagina sin recargarla-->
+        Registro no se ha podido guardar, quiza tu email o nick ya esta en uso intentalo de nuevo, con otros datos
+        <a [routerLink]="['/login']">
+        Identificate aqui</a>
+    </div>
+
+    <!--creamos un formulario llamado registerForm de tipo ng-form y al hacer submit sellama a una funcion llmada onsubmit y se le mada el formulario creado-->
+    <!-- (ngSubmit)='onSubmit(registerForm)' -->
+    <form #registerForm='ngForm' (ngSubmit)='onSubmit(registerForm)' class="col-lg-12">
+        <p>
+            <label>Nombre:</label>
+            <!--creamos un input con el nombre name de tipo ngModel y modificamos(seteamos) un campo del modelo usuario(name)-->
+            <input type="text" name="name" #name='ngModel' [(ngModel)]='user.name' class="from-control" required />
+            <span *ngIf='!name.valid && name.touched'>
+                <!-- si el nombre es valido y si ha sido seteado o tocado-->
+                El nombre es Obligatorio...!!!
+            </span>
+        </p>
+        <p>
+            <label>Apellidos:</label>
+            <!--creamos un input con el nombre name de tipo ngModel y modificamos(seteamos) un campo del modelo usuario(name)-->
+            <input type="text" name="surname" #surname='ngModel' [(ngModel)]='user.surname' class="from-control" required />
+            <span *ngIf='!surname.valid && surname.touched'>
+                <!-- si el nombre es valido y si ha sido seteado o tocado-->
+                Los apellidos son Obligatorio...!!!
+            </span>
+        </p>
+        <p>
+            <label>Apodo:</label>
+            <!--creamos un input con el nombre name de tipo ngModel y modificamos(seteamos) un campo del modelo usuario(name)-->
+            <input type="text" name="nick" #nick='ngModel' [(ngModel)]='user.nick' class="from-control" required />
+            <span *ngIf='!nick.valid && nick.touched'>
+                <!-- si el nombre es valido y si ha sido seteado o tocado-->
+                El apodo es Obligatorio...!!!
+            </span>
+        </p>
+        <p>
+            <label>Correo Electronico:</label>
+            <!--creamos un input con el nombre name de tipo ngModel y modificamos(seteamos) un campo del modelo usuario(name)-->
+            <input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" name="email" #email='ngModel' [(ngModel)]='user.email'
+                class="from-control" required />
+            <span *ngIf='!email.valid && email.touched'>
+                <!-- si el nombre es valido y si ha sido seteado o tocado-->
+                El correo no es correcto...!!!
+            </span>
+        </p>
+        <p>
+            <label>Contraseña:</label>
+            <!--creamos un input con el nombre name de tipo ngModel y modificamos(seteamos) un campo del modelo usuario(name)-->
+            <input type="password" name="password" #password='ngModel' [(ngModel)]='user.password' class="from-control" required />
+            <span *ngIf='!password.valid && password.touched'>
+                <!-- si el nombre es valido y si ha sido seteado o tocado-->
+                LA Contraseña es Obligatorio...!!!
+            </span>
+        </p>
+        <!--[disabled]='!registerForm.form.valid'   solo se activa si el formulario es valido-->
+        <input type="submit" value="{{title}}" class="btn btn-success" [disabled]="!registerForm.form.valid" />
+    </form>
+</div>

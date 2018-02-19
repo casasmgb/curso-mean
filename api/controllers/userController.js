@@ -2,6 +2,8 @@
 
 var User = require('../models/user') //modelo 
 var Follow = require('../models/follow') //modelo 
+var Publication = require('../models/publication') //modelo 
+
 var bcrypt = require('bcrypt-nodejs');
 var mongoosePaginate = require('mongoose-pagination');
 var fs = require('fs');
@@ -221,9 +223,14 @@ async function getCountFollows(user_id){
 		if(err) return handleError(err);
 		return count;
 	});
+	var publications = await Publication.count({'user':user_id}).exec((err, count)=>{
+		if(err) return handleError(err);
+		return count
+	});
 	return {
 		following : folloing,
-		followed : followed
+		followed : followed,
+		publications : publications
 	}
 }
 //edicion de datos
@@ -249,6 +256,7 @@ function uploadImage(req, res){
 	var userId = req.params.id;
 	
 	if (req.files) {
+
 		var file_path = req.files.imagen.path;
 		console.log(file_path);
 
